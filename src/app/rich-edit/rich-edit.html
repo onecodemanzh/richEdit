@@ -1,0 +1,91 @@
+<div rich-text-toolbar (click)="triggerInput()">
+    <span rich-format-tools>
+        <ng-template ngFor let-item [ngForOf]="Toolbar.format">
+            <span rich-format-btn [title]="item.title" *ngIf="item.name !== 'fontSize'"
+                (click)="handFormat(item.name, richTextContainer, item.needArgs, selectColor)">
+                <i>
+                    <svg class="icon" aria-hidden="true">
+                        <use [attr.xlink:href]="'#' + item.icon"></use>
+                    </svg>
+                </i>
+            </span>
+            <span *ngIf="item.name === 'fontSize'">
+                <span rich-menu-trigger
+                    rich-format-btn [title]="item.title"
+                    (click)="handFormat(item.name, richTextContainer, item.needArgs)">
+                    <i>
+                        <svg class="icon" aria-hidden="true">
+                            <use [attr.xlink:href]="'#' + item.icon"></use>
+                        </svg>
+                    </i>
+                    <ul rich-menu>
+                        <li  *ngFor="let sizeItem of fontSizes" (click)="setFontSize(sizeItem.value)">{{ sizeItem.name }}</li>
+                    </ul>
+                </span>
+            </span>
+        </ng-template>
+    </span>
+    <span rich-format-tools>
+        <ng-template ngFor let-item [ngForOf]="Toolbar.insert">
+            <span rich-format-btn [title]="item.title" *ngIf="item.name !== 'heading'"
+                (click)="handFormat(item.name, richTextContainer, item.needArgs)">
+                <i>
+                    <svg class="icon" aria-hidden="true">
+                        <use [attr.xlink:href]="'#' + item.icon"></use>
+                    </svg>
+                </i>
+            </span>
+       
+            <span *ngIf="item.name === 'heading'">
+                <span rich-menu-trigger
+                    rich-format-btn [title]="item.title"
+                    (click)="handFormat(item.name, richTextContainer, item.needArgs)">
+                    <i>
+                        <svg class="icon" aria-hidden="true">
+                            <use [attr.xlink:href]="'#' + item.icon"></use>
+                        </svg>
+                    </i>
+                    <ul rich-menu>
+                        <li  *ngFor="let hItem of HElements" (click)="setHElement(hItem.value)">{{ hItem.name }}</li>
+                    </ul>
+                </span>
+            </span>
+        </ng-template>
+    </span>
+    <span rich-format-tools>
+        <span *ngFor="let item of Toolbar.align" rich-format-btn [title]="item.title"
+            (click)="handFormat(item.name, richTextContainer, item.needArgs)">
+            <i>
+                <svg class="icon" aria-hidden="true">
+                    <use [attr.xlink:href]="'#' + item.icon"></use>
+                </svg>
+            </i>
+        </span>
+    </span>
+    <span rich-format-tools>
+        <span *ngFor="let item of Toolbar.handle" rich-format-btn [title]="item.title"
+            (click)="handFormat(item.name, richTextContainer, item.needArgs)">
+            <i>
+                <svg class="icon" aria-hidden="true">
+                    <use [attr.xlink:href]="'#' + item.icon"></use>
+                </svg>
+            </i>
+        </span>
+    </span>
+
+</div>
+<div rich-text-container [attr.contenteditable]="canContenteditable" #richTextContainer
+    [attr.disabled]="disabled == null ? null : disabled" [attr.tabindex]="disabled ? -1 : (tabIndex || 0)"
+    [attr.placeholder]="placeholder ? placeholder : null" (click)="_haltDisabledEvents($event)"
+    (change)="_onChange($event.target.value)" [style.height]='height'
+    [style.overflow-y]="height ? 'auto' : 'hidden'"
+    class="scroll">
+
+</div>
+
+<input type="color" name="color" [(ngModel)]="fontColor" (change)="setFontColor()" hidden #selectColor>
+
+<app-input-dialog *ngIf="insertLinkDilog.isVisible" [dialog]="insertLinkDilog" (insertChange)="setLink($event)">
+</app-input-dialog>
+<app-select-image *ngIf="insertImageDilog.isVisible" [dialog]="insertImageDilog" (select)="selectedImgs($event)">
+</app-select-image> 
