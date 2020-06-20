@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { RichEditModule } from './rich-edit/module';
+import { DynamicFormModule } from './dynamic-form/module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -10,7 +12,9 @@ import { RichEditModule } from './rich-edit/module';
   ],
   imports: [
     BrowserModule,
-    RichEditModule
+    FormsModule,
+    RichEditModule,
+    DynamicFormModule
   ],
   providers: [],
   bootstrap: [AppComponent]
